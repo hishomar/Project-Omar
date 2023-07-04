@@ -1,0 +1,46 @@
+CREATE DATABASE student_database;
+
+CREATE TABLE student_table (
+    Student_id INT PRIMARY KEY,
+    Stu_name TEXT,
+    Department TEXT,
+    email_id TEXT,
+    Phone_no NUMERIC,
+    Address TEXT,
+    Date_of_birth DATE,
+    Gender TEXT,
+    Major TEXT,
+    GPA NUMERIC,
+    Grade TEXT
+);
+
+INSERT INTO student_table (Student_id, Stu_name, Department, email_id, Phone_no, Address, Date_of_birth, Gender, Major, GPA, Grade)
+VALUES
+    (1,'Omar', 'Industrial Engineer', 'Omar@Amazon.com', 1234567890, '123 Main St', '1998-09-12', 'Male', 'Industrial Engineering', 4.8, 'A'),
+    (2,'Rana', 'Mathematics', 'Rana@Amazon.com', 9876543210, '456 Main St', '1997-02-08', 'Female', 'Mathematics', 5, 'A'),
+    (3, 'Khawlah', 'Sports', 'Khawlah@Amazon.com', 2938457534, '789 Main St', '1996-01-03', 'Female', 'Sports', 3.3, 'B'),
+    (4, 'Khaled', 'Spanish Language', 'Khaled@Amazon.com', 8473743585, '120 Main St', '1998-06-11','Male', 'Spanish', 2.9, 'C'),
+    (5, 'Luhan', 'Accounting', 'Luhan@Amazon.com', 6457388449, '130 Main St', '2001-07-08','Female', 'Accounting', 4.4, 'A'),
+    (6, 'Farah', 'Interior Design', 'Farah@Amazon.com', 9988123412, '140 Main St', '1994-09-11','Female', 'Interior Design', 3.5, 'B'),
+    (7, 'Salam', 'MIS', 'Salam@Amazon.com', 4447785927, '220 Main St', '1998-02-04', 'Male', 'MIS', 4.9, 'A'),
+    (8, 'Dana', 'Sports', 'Dana@Amazon.com', 9984334345, '250 Main St', '1997-07-01','Female', 'Sports', 2.6, 'C'),
+    (9, 'Ahmad', 'Elictrical Engineer', 'Ahmad@Amazon.com', 7656765342, '456 Main St', '1988-05-09', 'Male', 'Elictrical Engineer', 4.4, 'A'),
+    (10, 'Bashar', 'Accounting', 'Bashar@Amazon.com', 1255476894, '123 Main St', '1986-06-11', 'Male', 'Accounting', 1.8, 'D');
+
+SELECT * FROM student_table ORDER BY Grade DESC;
+
+SELECT * FROM student_table WHERE Gender = 'Male';
+
+SELECT * FROM student_table WHERE GPA < 5.0;
+
+UPDATE student_table SET email_id = 'Rana97@Amazon.com', Grade = 'B' WHERE Student_id = 2;
+
+SELECT Stu_name, EXTRACT(YEAR FROM age(Date_of_birth)) AS Age FROM student_table WHERE Grade = 'B';
+
+SELECT Department, Gender, AVG(GPA) AS Average_GPA
+FROM student_table
+GROUP BY Department, Gender;
+
+ALTER TABLE student_table RENAME TO student_info;
+
+SELECT Stu_name FROM student_info WHERE GPA = (SELECT MAX(GPA) FROM student_info);
