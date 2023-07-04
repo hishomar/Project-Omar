@@ -1,0 +1,67 @@
+CREATE DATABASE EventsManagement;
+
+CREATE TABLE Events (
+    Event_Id INT PRIMARY KEY,
+    Event_Name TEXT,
+    Event_Date DATE,
+    Event_Location TEXT,
+    Event_Description TEXT
+);
+
+CREATE TABLE Attendees (
+    Attendee_Id INT PRIMARY KEY,
+    Attendee_Name TEXT,
+    Attendee_Phone TEXT,
+    Attendee_Email TEXT,
+    Attendee_City TEXT
+);
+
+CREATE TABLE Registrations (
+    Registration_Id SERIAL PRIMARY KEY,
+    Event_Id INTEGER,
+    Attendee_Id INTEGER,
+    Registration_Date DATE,
+    Registration_Amount NUMERIC,
+    FOREIGN KEY (Event_Id) REFERENCES Events (Event_Id),
+    FOREIGN KEY (Attendee_Id) REFERENCES Attendees (Attendee_Id)
+);
+
+INSERT INTO Events (Event_Id, Event_Name, Event_Date, Event_Location, Event_Description)
+VALUES
+    (1,'Conference A', '2023-07-10', 'Venue A', 'Conference A Description'),
+    (2,'Workshop B', '2023-07-12', 'Venue B', 'Workshop B Description');
+
+INSERT INTO Attendees (Attendee_Id, Attendee_Name, Attendee_Phone, Attendee_Email, Attendee_City)
+VALUES
+    (101, 'Omar', '1234567890', 'Omar@amazon.com', 'City A'),
+    (102, 'Khaled', '9876543210', 'Khaled@amazon.com', 'City B');
+
+INSERT INTO Registrations (Event_Id, Attendee_Id, Registration_Date, Registration_Amount)
+VALUES
+    (1, 101, '2023-07-08', 100.00),
+    (2, 102, '2023-07-09', 50.00);
+
+INSERT INTO Events (Event_Id, Event_Name, Event_Date, Event_Location, Event_Description)
+VALUES (3, 'Seminar C', '2023-07-20', 'Venue C', 'Seminar C Description');
+
+UPDATE Events SET Event_Location = 'Venue T' WHERE Event_Id = 1;
+
+DELETE FROM Events WHERE Event_Id = 2;
+
+INSERT INTO Attendees (Attendee_Id, Attendee_Name, Attendee_Phone, Attendee_Email, Attendee_City)
+VALUES (103, 'Bashar', '8646427442', 'Bashar@amazon.com', 'City C');
+
+INSERT INTO Registrations (Event_Id, Attendee_Id, Registration_Date, Registration_Amount)
+VALUES (1, 103, '2023-07-11', 75.00);
+
+SELECT * FROM Events;
+
+SELECT Attendees.Attendee_Name, Attendees.Attendee_Email
+FROM Registrations
+JOIN Attendees ON Registrations.Attendee_Id = Attendees.Attendee_Id
+WHERE Registrations.Event_Id = 1;
+
+SELECT Event_Name, COUNT(*) AS Attendance_Count
+FROM Registrations
+JOIN Events ON Registrations.Event_Id = Events.Event_Id
+GROUP BY Events.Event_Id;
